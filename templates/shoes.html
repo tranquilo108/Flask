@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="product">
+        <img src='{{ url_for("static", filename="/img/shoes.jpg") }}' height="600" width="400">
+        <h2 class="title price">БОТФОРТЫ ЗИМНИЕ ЖЕНИСКИ - 2000 ₽</h2>
+        <p class="description">
+            Женские зимние ботфорты. Подкладка и стелька из мягкой байки отличается высокими эксплуатационными
+            характеристиками, обеспечивая ноге максимальный комфорт.
+        </p>
+    </div>
+
+{% endblock %}

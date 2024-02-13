@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="/css/style.css") }}"/>
+    <title>Document</title>
+</head>
+<body>
+{% block header %}
+    <h1 style="color: #561416; font-family: 'Ubuntu'; margin-left: 40%"> Магазин одежды</h1>
+{% endblock %}
+{% block menu %}
+    <nav class="top-menu">
+        <ul class="menu-main">
+            <li><a href={{ url_for('clothes') }}>Одежда</a></li>
+            <li><a href={{ url_for('shoes') }}>Обувь</a></li>
+            <li><a href={{ url_for('jackets') }}>Куртки</a></li>
+            <li><a href={{ url_for('contact') }}>Contact</a></li>
+            <li><a href={{ url_for('about') }}>About</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block footer %}
+    <div class="footer">
+        <p>Footer</p>
+    </div>
+{% endblock %}
+</body>
+</html>
+
+
