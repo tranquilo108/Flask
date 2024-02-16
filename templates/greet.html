@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
+{% block content %}
     <title>Страница приветствия</title>
     <h2>Приветствуем вас, {{ user_name }}!</h2>
     <p>Ваша электронная почта: {{ user_email }}</p>
     <br>
     <a href="{{ url_for('logout') }}">Выйти</a>
 {% endblock %}
-
-

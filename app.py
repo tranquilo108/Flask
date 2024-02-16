@@ -21,7 +21,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/greet')
+@app.route('/greet/')
 def greet():
     user_name = request.cookies.get('user_name')
     user_email = request.cookies.get('user_email')
