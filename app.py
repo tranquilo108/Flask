@@ -1,41 +1,56 @@
+import hashlib
 import secrets
-from flask import Flask, render_template, request, redirect, url_for, flash, make_response
 
-KEY = secrets.token_hex(4)
+from flask import Flask, render_template, request
+from flask_wtf import CSRFProtect
+from models import db, User
+from forms import RegistrationForm
+
+
 app = Flask(__name__)
-app.secret_key = KEY
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SECRET_KEY'] = secrets.token_hex()
+csrf = CSRFProtect(app)
+db.init_app(app)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
+@app.route('/index/')
 def index():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-
-        response = make_response(redirect(url_for('greet')))
-        response.set_cookie('user_name', name)
-        response.set_cookie('user_email', email)
-
-        return response
-
-    return render_template('index.html')
+    return render_template('base.html')
 
 
-@app.route('/greet/')
-def greet():
-    user_name = request.cookies.get('user_name')
-    user_email = request.cookies.get('user_email')
+@app.route('/register/', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    print(form)
+    print(app.config['SECRET_KEY'])
 
-    return render_template('greet.html', user_name=user_name, user_email=user_email)
+    if request.method == 'POST' and form.validate():
+        firstname = form.firstname.data
+        lastname = form.lastname.data
+        email = form.email.data
+        password = form.password.data
+        password = hashlib.md5(password.encode()).hexdigest()
+        user = User.query.filter_by(email=email).first()
+
+        if user:
+            form.email.data = 'Такая почта уже зарегистрирована'
+            return render_template('register.html', form=form)
+
+        else:
+            user = User(firstname=firstname, lastname=lastname, email=email, password=password)
+            db.session.add(user)
+            db.session.commit()
+            return 'Регистрация прошла успешно!'
+
+    return render_template('register.html', form=form)
 
 
-@app.route('/logout')
-def logout():
-    response = make_response(redirect(url_for('index')))
-    response.delete_cookie('user_name')
-    response.delete_cookie('user_email')
-
-    return response
+@app.cli.command('init-db')
+def init_db():
+    db.create_all()
+    print('OK')
 
 
 if __name__ == '__main__':
