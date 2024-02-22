@@ -53,7 +53,7 @@ async def get_all_image_links(url):
     title = soup.find_all('h1')[-1].text
     title = re.sub(r'[^a-zA-Z0-9_-]', '', title)
     img = soup.find('div', id='product_gallery').find('img').get('src')
-    c = asyncio.ensure_future(download(name=title, url=f'https://books.toscrape.com/{img.replace("../../", "")}'))
+    c = asyncio.ensure_future(download(name=title, url=f'https://books.toscrape.com/{img.replace("../../", " ")}'))
     coroutines.append(c)
     await asyncio.gather(*coroutines)
 
