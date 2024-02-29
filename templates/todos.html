@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Todo List</h1>
+
+        <ul class="list-group">
+            {% for todo in todos %}
+                {% if todo.completed %}
+                    <li class="list-group-item list-group-item-success">
+                {% else %}
+                    <li class="list-group-item list-group-item-danger">
+                {% endif %}
+                    <strong>{{ todo.title }}</strong>
+                    <p>{{ todo.description }}</p>
+                    <small>ID: {{ todo.id }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
