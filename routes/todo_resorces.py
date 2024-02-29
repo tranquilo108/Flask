@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from models.models import CreateToDoRequest, UpdateToDoRequest, ToDo
-from db.db import create_todo, get_todo, update_todo, delete_todo
+from db.db import create_todo, get_todo, update_todo, delete_todo, get_all_todo
 
 todos = APIRouter(prefix="/todos")
 
@@ -9,6 +9,12 @@ todos = APIRouter(prefix="/todos")
 @todos.post("/", response_model=ToDo)
 async def create(todo: CreateToDoRequest):
     res = await create_todo(todo)
+    return res
+
+
+@todos.get("/all")
+async def get_all():
+    res = await get_all_todo()
     return res
 
 

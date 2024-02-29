@@ -35,6 +35,18 @@ async def get_todo(todo_id: int) -> ToDo:
         raise HTTPException(status_code=404, detail="Todo not found")
 
 
+async def get_all_todo():
+    query = "SELECT * FROM todo_list"
+    try:
+        result = await database.fetch_all(query=query)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to fetch todo from database")
+    if result:
+        return result
+    else:
+        raise HTTPException(status_code=404, detail="Todo not found")
+
+
 async def update_todo(todo_id: int, todo: UpdateToDoRequest) -> ToDo:
     query = "UPDATE todo_list " \
             "SET title=:title, description=:description, completed=:completed " \
